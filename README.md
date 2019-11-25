@@ -6,7 +6,7 @@ To start, open a Julia REPL and type `]` to enter pkg mode, install dependancies
 ```julia
 pkg> add Yao LuxurySparse BitBasis DelimitedFiles OMEinsum
 pkg> dev YaoExtensions
-pkg> dev git@gitlab.theory.iphy.ac.cn:codes/tensorqc.git
+pkg> dev git@github.com:QuantumBFS/YaoTensorNetwork.jl.git
 ```
 
 If the second line does not work, please try clone and `pkg> dev .` at top level folder.
@@ -35,10 +35,20 @@ EinGraph{Complex{Float64},Array{Complex{Float64},N} where N}
  T[13](2)
 
 
-julia> res = contract(eg)
--0.005533928306495697 - 0.21124814706199962im
-
 julia> dump_graph("_test", eg);
 
 julia> eg2 = load_graph(eltype(eg), "_test");
+
+julia> using OMEinsum
+
+julia> res = contract(eg)
+-0.005533928306495697 - 0.21124814706199962im
 ```
+
+Here, `circuit2tn` convert a circuit to a "generalized tensor network" (or factor graph).
+In order to general reasonable structures, we suggestion using `simplify_blocktypes(c)` before dumping.
+`dump_graph` dumps this generated tensor network (the `EinGraph` instance) to three files, `_test.labels.dat`, `_test.sizes.dat` and `_test.tensors.dat` in plain text format. One can use `load_graph` to read these files.
+This package conditionally depends on `OMEinsum`, which is able to evaluate the tensor network directly utilizing `@tensoropt` defined in `TensorOperations.jl`.
+One can also load the data to python with the script in the example folder.
+
+For more examples, see [example](example/) folder.

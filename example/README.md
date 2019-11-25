@@ -11,3 +11,9 @@ julia dump_circuit.jl variational 6 10  # n, depth
 julia dump_circuit.jl qft 6  # n
 julia dump_circuit.jl google53 10  # depth
 ```
+
+## Load data to python
+Requires `numpy` and `fire`, excute the following line in a terminal
+```bash
+python convert.py <file-prefix>
+```
