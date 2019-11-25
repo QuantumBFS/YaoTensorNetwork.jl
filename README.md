@@ -1,6 +1,8 @@
-# TensorQC
+# YaoTensorNetwork
 
-Converting Quantum Circuit to tensor networks
+[![Build Status](https://travis-ci.com/QuantumBFS/YaoTensorNetwork.jl.svg?branch=master)](https://travis-ci.com/QuantumBFS/YaoTensorNetwork.jl)
+
+Converting a Quantum Circuit in Yao to a tensor network.
 
 To start, open a Julia REPL and type `]` to enter pkg mode, install dependancies by
 ```julia
