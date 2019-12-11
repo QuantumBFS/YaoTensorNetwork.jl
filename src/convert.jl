@@ -16,7 +16,7 @@ function attach_gate!(gb::GraphBuilder, tree::PutBlock{N,2,<:SWAPGate}) where N
     swaplines!(gb, tree.locs...)
 end
 
-function attach_gate!(gb::GraphBuilder, tree::PutBlock{N,C,<:RotationGate{C,T,<:KronBlock{C,<:AbstractBlock{1}}}}) where {N,C,T}
+function attach_gate!(gb::GraphBuilder, tree::PutBlock{N,C,<:RotationGate{C,T,<:KronBlock{C,C2,<:NTuple{C2,AbstractBlock{1}}}}}) where {N,C,C2,T}
     tensors = Any[]
     if seperatecontrol()
         rt = content(tree)
@@ -38,7 +38,7 @@ function attach_gate!(gb::GraphBuilder, tree::PutBlock{N,C,<:RotationGate{C,T,<:
                 tensor[:,:,1,1] = mi
                 tensor[:,:,2,2] = mk
             end
-            push!(tensors, (loc,)=>tensor)
+            push!(tensors, (loc...,)=>tensor)
         end
         tn_attach!(gb, tensors...)
     else
