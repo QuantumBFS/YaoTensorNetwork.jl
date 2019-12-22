@@ -55,3 +55,21 @@ function load_graph(::Type{T}, prefix::String) where T
     datas = map((x,y)->reshape(x, y...), datas, sizes)
     EinGraph(datas, [(l...,) for l in labels])
 end
+
+function graph2strings(eg::YaoTensorNetwork.EinGraph{T}) where T
+    res = String[]
+    io = IOBuffer()
+    for t in eg.tensors
+        writedlm(io, transpose(reinterpret(real(T), vec(t))))
+    end
+    push!(res, String(take!(io)))
+    for t in eg.tensors
+        writedlm(io, [size(t)...]')
+    end
+    push!(res, String(take!(io)))
+    for l in eg.labels
+        writedlm(io, [l...]')
+    end
+    push!(res, String(take!(io)))
+    res
+end

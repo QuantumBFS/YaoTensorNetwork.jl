@@ -10,7 +10,7 @@ rk = 4-sepctrl
 
 @main function qft(nbit::Int)
     config = bit_literal(ones(Int,nbit)...)   # final output config
-    c = QFTCircuit(nbit)
+    c = qft_circuit(nbit)
     gb = circuit2tn(c, final_config=config)
     dump_graph(joinpath(@__DIR__, "graphs", "qft$nbit-rank$rk"), gb)
 end

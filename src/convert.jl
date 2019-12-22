@@ -74,3 +74,11 @@ function circuit2tn(c::AbstractBlock; initial_config=zeros(Int,nqubits(c)), fina
     finish!(gb, final_config)
     return generate_eingraph(gb)
 end
+
+function opennetwork(c::AbstractBlock{N}) where N
+    gb = GraphBuilder(zeros(Int, N))
+    gb.tensors = gb.tensors[N+1:end]
+    gb.labels = gb.tensors[N+1:end]
+    attach_gate!(gb, c)
+    return generate_eingraph(gb)
+end

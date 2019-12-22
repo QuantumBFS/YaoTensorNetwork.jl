@@ -26,7 +26,7 @@ end
     nbit = 6
     config = bit_literal(ones(Int,nbit)...)   # final output config
 
-    c = QFTCircuit(nbit)
+    c = qft_circuit(nbit)
     gb = circuit2tn(c, final_config=config)
     @test contract(gb) ≈ select(zero_state(nbit) |> c, config).state[]
 

@@ -104,7 +104,7 @@ end
 
     # qft circuit
     nbit = 4
-    c = QFTCircuit(4)
+    c = qft_circuit(4)
     for sep in [true, false]
         seperatecontrol(sep)
         for config in basis(BitStr64{nbit})
