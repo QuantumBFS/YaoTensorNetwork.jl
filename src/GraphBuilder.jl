@@ -2,9 +2,9 @@ export GraphBuilder, nlines, maxorder
 export assign_label!, add!, tn_attach!, finish!
 export generate_eingraph
 
-mutable struct GraphBuilder
+mutable struct GraphBuilder{T}
     lines::Vector{Int}
-    tensors::Vector{AbstractArray}
+    tensors::Vector{AbstractArray{T,N} where N}
     labels::Vector{Tuple}
     label_counter::Int
 end
@@ -16,11 +16,12 @@ function swaplines!(gb::GraphBuilder, i::Int, j::Int)
     return gb
 end
 
-function GraphBuilder(config::Union{Vector{Int}, BitStr})
+function GraphBuilder(::Type{T}, config::Union{Vector{Int}, BitStr}) where T
     n = length(config)
-    tensors = [c == 0 ? [1, 0.0im] : [0.0im, 1] for c in config]
+    tensors = (AbstractArray{T,N} where N)[c == 0 ? T[1, 0.0] : T[0.0, 1] for c in config]
     GraphBuilder(collect(1:n), tensors, Vector{Tuple}([(i,) for i=1:n]), n)
 end
+GraphBuilder(config::Union{Vector{Int}, BitStr}) = GraphBuilder(ComplexF64, config)
 GraphBuilder(n::Int) = GraphBuilder(zeros(Int,n))
 
 nlines(gb::GraphBuilder) = length(gb.lines)
